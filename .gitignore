@@ -1,0 +1,64 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+.eggs/
+*.egg
+
+# Virtual environment
+venv/
+.venv/
+env/
+
+# Environment variables
+.env
+
+# Data files (too large for git)
+backend/data/raw/
+backend/data/models/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Exploration scripts (dev only)
+grid_api_explorer*.py
+grid_api_*.py
+grid_data_*.py
+grid_exploration_output/
+
+# AI-generated images (large binaries)
+Gemini_Generated_Image_*.png
+
+# Claude Code / BMAD agent internal files
+.claude/
+_bmad/
+_bmad-output/
+
+# Misc dev files
+advisor2.txt
+michael_saible.txt
+frontend-spec.md
+nul
+
+# Empty mistaken directories
+backenddatamodels/
+backenddataprocessed/
+backenddataraw/
+backenddraftmindapiendpoints/
+backenddraftmindcore/
+backenddraftminddata/
+backenddraftmindengine/
+backenddraftmindmodels/
+backendscripts/
+
+# Node
+node_modules/

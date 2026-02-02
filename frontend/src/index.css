@@ -1,0 +1,263 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* DraftMind AI - Dark Esports Professional Design System */
+
+@layer base {
+  :root {
+    /* Background gradient colors */
+    --background: 222 47% 7%;
+    --background-secondary: 220 33% 10%;
+    --foreground: 210 40% 96%;
+
+    /* Surface cards */
+    --card: 222 33% 14%;
+    --card-foreground: 210 40% 96%;
+    --card-hover: 222 28% 17%;
+    --card-border: 222 20% 20%;
+
+    --popover: 222 33% 14%;
+    --popover-foreground: 210 40% 96%;
+
+    /* Primary - Cloud9 Blue */
+    --primary: 197 100% 50%;
+    --primary-foreground: 222 47% 7%;
+    --primary-hover: 197 100% 43%;
+
+    /* Secondary - Indigo/Purple */
+    --secondary: 239 84% 67%;
+    --secondary-foreground: 210 40% 98%;
+
+    /* Muted */
+    --muted: 215 16% 47%;
+    --muted-foreground: 215 16% 47%;
+
+    /* Accent */
+    --accent: 222 28% 17%;
+    --accent-foreground: 210 40% 96%;
+
+    /* Status colors */
+    --success: 142 71% 45%;
+    --success-foreground: 210 40% 98%;
+    --danger: 0 84% 60%;
+    --danger-foreground: 210 40% 98%;
+    --warning: 38 92% 50%;
+    --warning-foreground: 222 47% 7%;
+
+    /* Team side colors */
+    --blue-side: 217 91% 60%;
+    --blue-side-foreground: 210 40% 98%;
+    --red-side: 0 84% 60%;
+    --red-side-foreground: 210 40% 98%;
+
+    /* Gold/Highlight */
+    --gold: 45 93% 58%;
+    --gold-foreground: 222 47% 7%;
+
+    /* Destructive */
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 210 40% 98%;
+
+    /* Borders and inputs */
+    --border: 222 20% 20%;
+    --input: 222 20% 20%;
+    --ring: 197 100% 50%;
+
+    --radius: 0.75rem;
+
+    /* Sidebar */
+    --sidebar-background: 222 33% 10%;
+    --sidebar-foreground: 215 16% 47%;
+    --sidebar-primary: 197 100% 50%;
+    --sidebar-primary-foreground: 222 47% 7%;
+    --sidebar-accent: 222 28% 17%;
+    --sidebar-accent-foreground: 210 40% 96%;
+    --sidebar-border: 222 20% 18%;
+    --sidebar-ring: 197 100% 50%;
+  }
+
+  .dark {
+    /* Same as root - this is a dark-only theme */
+    --background: 222 47% 7%;
+    --background-secondary: 220 33% 10%;
+    --foreground: 210 40% 96%;
+    --card: 222 33% 14%;
+    --card-foreground: 210 40% 96%;
+    --card-hover: 222 28% 17%;
+    --card-border: 222 20% 20%;
+    --popover: 222 33% 14%;
+    --popover-foreground: 210 40% 96%;
+    --primary: 197 100% 50%;
+    --primary-foreground: 222 47% 7%;
+    --primary-hover: 197 100% 43%;
+    --secondary: 239 84% 67%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 215 16% 47%;
+    --muted-foreground: 215 16% 47%;
+    --accent: 222 28% 17%;
+    --accent-foreground: 210 40% 96%;
+    --success: 142 71% 45%;
+    --success-foreground: 210 40% 98%;
+    --danger: 0 84% 60%;
+    --danger-foreground: 210 40% 98%;
+    --warning: 38 92% 50%;
+    --warning-foreground: 222 47% 7%;
+    --blue-side: 217 91% 60%;
+    --blue-side-foreground: 210 40% 98%;
+    --red-side: 0 84% 60%;
+    --red-side-foreground: 210 40% 98%;
+    --gold: 45 93% 58%;
+    --gold-foreground: 222 47% 7%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 222 20% 20%;
+    --input: 222 20% 20%;
+    --ring: 197 100% 50%;
+    --sidebar-background: 222 33% 10%;
+    --sidebar-foreground: 215 16% 47%;
+    --sidebar-primary: 197 100% 50%;
+    --sidebar-primary-foreground: 222 47% 7%;
+    --sidebar-accent: 222 28% 17%;
+    --sidebar-accent-foreground: 210 40% 96%;
+    --sidebar-border: 222 20% 18%;
+    --sidebar-ring: 197 100% 50%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    font-family: 'Inter', sans-serif;
+    overflow-x: hidden;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    background: linear-gradient(180deg, hsl(222 47% 7%) 0%, hsl(220 33% 10%) 100%);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Stats and numbers use JetBrains Mono */
+  .font-mono {
+    font-family: 'JetBrains Mono', monospace;
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+@layer utilities {
+  /* Glass morphism effect */
+  .glass {
+    @apply bg-card/80 backdrop-blur-md border border-card-border;
+  }
+
+  /* Glass card variant */
+  .glass-card {
+    @apply bg-card/80 backdrop-blur-md border border-card-border rounded-xl;
+  }
+
+  /* Gradient text */
+  .gradient-text {
+    @apply bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent;
+  }
+
+  /* Pulsing border animation for active picks */
+  .pulse-border {
+    animation: pulse-border 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse-border {
+    0%, 100% {
+      box-shadow: 0 0 0 0 hsl(var(--primary) / 0.4);
+    }
+    50% {
+      box-shadow: 0 0 0 8px hsl(var(--primary) / 0);
+    }
+  }
+
+  /* Red pulse for red side */
+  .pulse-border-red {
+    animation: pulse-border-red 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse-border-red {
+    0%, 100% {
+      box-shadow: 0 0 0 0 hsl(var(--red-side) / 0.4);
+    }
+    50% {
+      box-shadow: 0 0 0 8px hsl(var(--red-side) / 0);
+    }
+  }
+
+  /* Glow effects */
+  .glow-blue {
+    box-shadow: 0 0 20px hsl(var(--blue-side) / 0.3);
+  }
+
+  .glow-red {
+    box-shadow: 0 0 20px hsl(var(--red-side) / 0.3);
+  }
+
+  .glow-primary {
+    box-shadow: 0 0 20px hsl(var(--primary) / 0.3);
+  }
+
+  /* Score bar gradient */
+  .score-gradient {
+    background: linear-gradient(90deg, hsl(0 84% 60%) 0%, hsl(38 92% 50%) 50%, hsl(142 71% 45%) 100%);
+  }
+
+  /* Shimmer animation for skeletons */
+  .shimmer {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .shimmer::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    transform: translateX(-100%);
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      hsl(var(--foreground) / 0.05) 50%,
+      transparent 100%
+    );
+    animation: shimmer 1.5s infinite;
+  }
+
+  @keyframes shimmer {
+    100% {
+      transform: translateX(100%);
+    }
+  }
+
+  /* Hover scale */
+  .hover-scale {
+    @apply transition-transform duration-200 hover:scale-105;
+  }
+
+  /* Radial gradient for lock-in animation */
+  .bg-gradient-radial {
+    background: radial-gradient(circle, var(--tw-gradient-stops));
+  }
+
+  /* No scrollbar utility */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
