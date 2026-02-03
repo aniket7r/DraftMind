@@ -40,7 +40,10 @@ function stopSpeaking() {
 }
 
 // ── Typewriter component ────────────────────────────────────
-function TypewriterText({ text, speed = 18 }: { text: string; speed?: number }) {
+// Dynamic speed: faster for longer text to keep total animation time reasonable
+function TypewriterText({ text, speed }: { text: string; speed?: number }) {
+  // Target ~4 seconds for full text, with min 8ms and max 25ms per char
+  const dynamicSpeed = speed ?? Math.max(8, Math.min(25, Math.floor(4000 / text.length)));
   const [displayed, setDisplayed] = useState('');
   const [done, setDone] = useState(false);
   const indexRef = useRef(0);
@@ -58,10 +61,10 @@ function TypewriterText({ text, speed = 18 }: { text: string; speed?: number }) 
         setDone(true);
         clearInterval(interval);
       }
-    }, speed);
+    }, dynamicSpeed);
 
     return () => clearInterval(interval);
-  }, [text, speed]);
+  }, [text, dynamicSpeed]);
 
   return (
     <span>
