@@ -276,21 +276,27 @@ def generate_narration(
         response = model.generate_content(prompt)
         raw = response.text.strip()
 
-        # Parse tone from last line if present
+        # Parse tone - can be on its own line OR at end of text
         tone = "analytical"
         narrative = raw
-        lines = raw.split("\n")
-        for i in range(len(lines) - 1, max(len(lines) - 3, -1), -1):
-            line = lines[i].strip()
-            if line.startswith("TONE:"):
-                tone = line.replace("TONE:", "").strip().lower()
-                if tone not in ("excited", "analytical", "cautious"):
-                    tone = "analytical"
-                narrative = "\n".join(lines[:i]).strip()
-                break
 
-        # Clean up the narrative (remove any stray TONE lines in middle)
-        narrative = narrative.strip()
+        # Check for TONE: anywhere in the text (usually at end)
+        import re
+        tone_match = re.search(r'\bTONE:\s*(excited|analytical|cautious)\b', raw, re.IGNORECASE)
+        if tone_match:
+            tone = tone_match.group(1).lower()
+            # Remove the TONE: marker from narrative
+            narrative = raw[:tone_match.start()].strip()
+            # Also remove any trailing part after TONE:
+            after_tone = raw[tone_match.end():].strip()
+            if after_tone and not after_tone.startswith("TONE:"):
+                narrative = narrative + " " + after_tone if narrative else after_tone
+
+        # Clean up any remaining TONE: references
+        narrative = re.sub(r'\bTONE:\s*(excited|analytical|cautious)\b', '', narrative, flags=re.IGNORECASE).strip()
+
+        # Remove any double spaces
+        narrative = re.sub(r'\s+', ' ', narrative).strip()
 
         return {"narrative": narrative, "tone": tone}
     except Exception as e:
