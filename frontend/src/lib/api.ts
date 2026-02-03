@@ -1,5 +1,5 @@
 // API Configuration with toggle between real API and mock data
-const API_BASE_URL = 'http://localhost:8000';
+const API_BASE_URL = import.meta.env.VITE_API_URL || '';
 
 // Toggle this to switch between real API and mock data
 export const USE_MOCK_DATA = false;
