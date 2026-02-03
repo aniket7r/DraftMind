@@ -17,25 +17,23 @@ def _get_model():
     return _model
 
 
-SYSTEM_PROMPT = """You are an expert League of Legends esports analyst providing LIVE draft commentary. Give insightful, data-driven analysis.
+SYSTEM_PROMPT = """You are an expert League of Legends esports analyst providing LIVE draft commentary.
 
 RULES:
-- Write 2-3 sentences (40-60 words total)
-- First sentence: React to the pick/ban with energy and context
-- Second sentence: Analyze the strategic implication (synergy, counter, composition impact, or team tendencies)
-- Optional third sentence: Speculation about what comes next or a thought-provoking question
-- Use pro-level analysis: mention win conditions, power spikes, role matchups, team compositions
-- Reference the stats provided when relevant
-- Esports terminology encouraged. No emojis.
+- Write exactly 2 sentences (25-35 words total)
+- First sentence: React to the pick/ban with context
+- Second sentence: One key strategic insight or question
+- Be concise but insightful. No filler words.
+- Esports terminology OK. No emojis.
 
 Good examples:
-"T1 locks in Azir — a signature control mage with a 54% win rate in their hands! This signals a scaling composition that wants to teamfight around objectives. Will Gen.G try to punish the early game?"
+"T1 locks in Azir with a 54% win rate — signaling a scaling teamfight comp! Can Gen.G punish them early?"
 
-"Cloud9 bans Nautilus, denying one of the highest-presence supports in the tournament! This forces their opponents off comfort and opens up the Thresh angle they've been eyeing. Smart preparation showing through."
+"Cloud9 bans Nautilus, denying a high-presence comfort pick. This opens the door for Thresh."
 
-"That Jinx pick completes a full teamfight composition with massive late-game scaling! Combined with the Thresh and Maokai, they have layered CC to enable her. The question is — can they survive until three items?"
+"Jinx completes a late-game scaling composition with layered CC to enable her. Survive to three items and they win."
 
-Last line must be exactly: TONE:excited OR TONE:analytical OR TONE:cautious"""
+Last line must be: TONE:excited OR TONE:analytical OR TONE:cautious"""
 
 
 def _build_draft_context(
@@ -311,7 +309,7 @@ def _fallback_narration(
 ) -> dict:
     """Template-based fallback when Gemini is unavailable."""
     if not current_actions:
-        return {"narrative": "Ladies and gentlemen, the draft is about to begin! Both teams have prepared extensively for this moment. Let's see what strategies unfold.", "tone": "excited"}
+        return {"narrative": "The draft begins! Both teams are ready to reveal their strategies.", "tone": "excited"}
 
     latest = current_actions[-1]
     champ = latest["champion_name"]
@@ -321,32 +319,31 @@ def _fallback_narration(
 
     stats = data_store.champion_stats.get(champ, {})
     wr = stats.get("win_rate", 0)
-    pr = stats.get("pick_rate", 0)
     role = stats.get("primary_role", "unknown")
     seq = latest.get("sequence_number", len(current_actions))
 
     if latest["action_type"] == "ban":
         if wr > 53:
-            narrative = f"{team} bans {champ}, an S-tier {role} with a {wr:.1f}% win rate in pro play! This champion has been dominating the meta and they're not willing to let it through. A respect ban that shows they've done their homework."
+            narrative = f"{team} bans {champ} — an S-tier {role} at {wr:.1f}% win rate. Respect ban on a meta terror."
             tone = "analytical"
         elif wr > 50:
-            narrative = f"{team} removes {champ} from the pool. With a {wr:.1f}% win rate and {pr:.1f}% pick rate, this {role} has been a consistent threat. Could this be a target ban based on their opponent's champion pool?"
+            narrative = f"{team} removes {champ} from the pool. Target ban or meta denial?"
             tone = "cautious"
         else:
-            narrative = f"{team} opts to ban {champ} — an interesting choice given its {wr:.1f}% win rate. There must be something specific they're trying to deny. Perhaps a comfort pick or a key piece of a composition they've scouted."
+            narrative = f"{team} bans {champ} at {wr:.1f}% WR — must be a comfort pick denial."
             tone = "analytical"
     else:
         if seq >= 17:
-            narrative = f"{team} locks in {champ} in the final rotation! This {role} pick completes their composition. With a {wr:.1f}% win rate in pro play, they're confident this is the missing piece. The draft puzzle comes together!"
+            narrative = f"{team} locks {champ} to complete the comp! Final piece of the puzzle."
             tone = "excited"
         elif wr > 53:
-            narrative = f"{team} secures {champ} — an elite {role} boasting a {wr:.1f}% win rate! This is one of the strongest picks in the current meta. They're making a statement with this selection and the composition is taking shape."
+            narrative = f"{team} secures {champ} — elite {role} at {wr:.1f}% WR. Statement pick!"
             tone = "excited"
         elif wr > 50:
-            narrative = f"{team} picks up {champ}, a solid {role} choice with {wr:.1f}% win rate. This adds flexibility to their draft and opens up multiple composition paths. A well-rounded pick that doesn't reveal too much of their strategy."
+            narrative = f"{team} picks {champ}, solid {role} choice at {wr:.1f}% WR. Flexible draft."
             tone = "analytical"
         else:
-            narrative = f"{team} goes with {champ} — a {role} sitting at {wr:.1f}% win rate. This is either a comfort pick or they see something in this matchup that the numbers don't show. Confidence or overconfidence? Time will tell."
+            narrative = f"{team} goes {champ} at {wr:.1f}% WR — comfort pick or hidden tech?"
             tone = "cautious"
 
     return {"narrative": narrative, "tone": tone}
