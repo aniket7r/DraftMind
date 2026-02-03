@@ -516,7 +516,7 @@ export default function About() {
               variant="outline"
               size="lg"
               className="gap-2 border-card-border hover:border-primary/50 hover:shadow-[0_0_15px_hsl(var(--primary)/0.15)] transition-all"
-              onClick={() => window.open('https://github.com', '_blank')}
+              onClick={() => window.open('https://github.com/aniket7r/DraftMind', '_blank')}
             >
               <Github className="w-5 h-5" />
               View on GitHub
